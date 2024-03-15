@@ -17,7 +17,7 @@ function App() {
 
   const handleAddTask = () => {
     if (inputValue.trim() !== '') {
-      setTasks([...tasks, { id: Date.now(), title: inputValue, completed: false }]);
+      setTasks([...tasks, { title: inputValue, completed: false }]);
       setInputValue('');
     }
   };
@@ -36,7 +36,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>To-Do List</h1>
+      <h1 style={{color:' #4B286D' }}>To-Do List</h1>
       <div className="add-task">
         <input
           type="text"
