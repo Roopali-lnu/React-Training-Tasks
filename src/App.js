@@ -1,54 +1,31 @@
-import React, { useState } from 'react';
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
-import './App.css';
-import TaskList from './To-Do/TaskList';
-
-
+import React, { useState } from 'react'
+import "./App.css"
+import Task from './Components/Task';
+import TaskList from './Components/TaskList';
 function App() {
-  const [tasks, setTasks] = useState([]);
-  const [inputValue, setInputValue] = useState('');
-
-  const handleInputChange = (event) => {
-    setInputValue(event.target.value);
-  };
-
-  const handleAddTask = () => {
-    if (inputValue.trim() !== '') {
-      setTasks([...tasks, { title: inputValue, completed: false }]);
-      setInputValue('');
-    }
-  };
-
-  const handleDeleteTask = (id) => {
-    const updatedTasks = tasks.filter(task => task.id !== id);
-    setTasks(updatedTasks);
-  };
-
-  const handleToggleTask = (id) => {
-    const updatedTasks = tasks.map(task =>
-      task.id === id ? { ...task, completed: !task.completed } : task
-    );
-    setTasks(updatedTasks);
-  };
-
+  const [listTodo,setListTodo]=useState([]);
+  let addList = (inputText)=>{
+    if(inputText!=='')
+      setListTodo([...listTodo,inputText]);
+  }
+  const deleteListItem = (key)=>{
+    let newListTodo = [...listTodo];
+    newListTodo.splice(key,1)
+    setListTodo([...newListTodo])
+  }
   return (
-    <div className="App">
-      <h1 style={{color:' #4B286D' }}>To-Do List</h1>
-      <div className="add-task">
-        <input
-          type="text"
-          value={inputValue}
-          onChange={handleInputChange}
-          placeholder="Enter task"
-        />
-        <button onClick={handleAddTask}>Add Task</button>
+    <div className="main-container">
+      <div className="center-container">
+        <Task addList={addList}/>
+        <h1 className="app-heading">TO-DO List</h1>
+        {listTodo.map((listItem,i)=>{
+          return (
+            <TaskList key={i} index={i} item={listItem} deleteItem={deleteListItem}/>
+          )
+        })}
       </div>
-      <TaskList tasks={tasks} onDelete={handleDeleteTask} onToggle={handleToggleTask} />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
